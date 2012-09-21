@@ -3,6 +3,7 @@ class PastaDB //class interacts with database
 {
 	/* Properties */
 	public $DBH = null; //MySQLi database handler
+	public $RawPasta = null;
 	public $error = null;
 	public $errorNum = null;
 	
@@ -22,7 +23,7 @@ class PastaDB //class interacts with database
 		return null;
 	}
 	
-	function connect()
+	public function connect()
 	{
 		$args = func_get_args();
 		
@@ -40,6 +41,7 @@ class PastaDB //class interacts with database
 			//sets the default character set
 			if ($this->DBH->set_charset($this->charsetDefault))
 			{
+				$this->RawPasta = new RawPasta($this);
 				return true;
 			}
 			else
@@ -50,11 +52,17 @@ class PastaDB //class interacts with database
 			
 		}
 	}
-
 }
 
 class RawPasta //class output SQL strings
 {
+	/* Properties */
+	public $PastaDB = null; //parrent class
 	
+	/* Methods */
+	function __construct($parrent)
+	{
+		$this->PastaDB = $parrent;
+	}
 }
 ?>
