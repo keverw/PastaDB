@@ -6,7 +6,7 @@ $dbUser = 'root';
 $dbPass = 'root';
 $dbName = 'tests';
 
-$db = new PastaDB('DUMBCHAR');
+$db = new PastaDB();
 
 if ($db->connect($dbHost, $dbUser, $dbPass, $dbName))
 {
