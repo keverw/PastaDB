@@ -6,7 +6,22 @@ class PastaDB //class interacts with database
 	public $error = null;
 	public $errorNum = null;
 	
+	/* charset */
+	private $charsetDefault = null;
+		
 	/* Methods */
+	function __construct($charset = 'utf8')
+	{
+		$this->charsetDefault = $charset;
+	}
+	
+	private function _setSQLiError()
+	{
+		$this->error = $this->DBH->error;
+		$this->errorNum = $this->DBH->errno;
+		return null;
+	}
+	
 	function connect()
 	{
 		$args = func_get_args();
@@ -22,7 +37,17 @@ class PastaDB //class interacts with database
 		}
 		else //no error!
 		{
-			return true;
+			//sets the default character set
+			if ($this->DBH->set_charset($this->charsetDefault))
+			{
+				return true;
+			}
+			else
+			{
+				$this->_setSQLiError();
+				return false;
+			}
+			
 		}
 	}
 
