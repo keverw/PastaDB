@@ -52,6 +52,16 @@ class PastaDB //class interacts with database
 			
 		}
 	}
+	
+	public function clean($mixedValue)
+	{
+		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
+		{
+			$mixedValue = stripcslashes($mixedValue);
+		}
+		
+		return addcslashes($this->DBH->real_escape_string($mixedValue), '%_'); //escapes using real_escape_string, then escapes _ (underscore) and % (percent) signs
+	}
 }
 
 class RawPasta //class output SQL strings
