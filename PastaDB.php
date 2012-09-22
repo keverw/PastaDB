@@ -20,10 +20,19 @@ class PastaDB //class interacts with database
 		$this->charsetDefault = $charset;
 	}
 	
-	private function _setSQLiError()
+	public function _setSQLiError($errorNum = null, $error = '') //should be private but public so RawPasta can call it.
 	{
-		$this->error = $this->DBH->error;
-		$this->errorNum = $this->DBH->errno;
+		if ($errorNum)
+		{
+			$this->errorNum = $errorNum;
+			$this->error = $error;
+		}
+		else
+		{
+			$this->errorNum = $this->DBH->errno;
+			$this->error = $this->DBH->error;
+		}
+		
 		return null;
 	}
 	
@@ -115,20 +124,34 @@ class RawPasta //class output SQL strings
 		
 		$argCount = count($args);
 		
-		if ($argCount > 0) //set $tableName
+		if ($argCount > 0 && is_string($args[0])) //set $tableName
 		{
-			$tableName = $args[0];
-			unset($args[0]);
+			$tableName = array_shift($args);
 			$argCount--;
+			if ($argCount > 0 && is_array($args[0]))
+			{
+				$tableRows = array_shift($args);
+				$argCount--;
+				$additionalRow = $args;
+				unset($args, $argCount);
+				
+				var_dump($tableName);
+				print_r($tableRows);
+				print_r($additionalRow);
+			}
+			else
+			{
+				$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing row in insert()');
+				return false;
+			}
+			
 		}
 		else
 		{
-			return null;
+			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in insert()');
+			return false;
 		}
 		
-		print_r($args);
-		
-		//Connect Error (1064) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selectx * from test' at line 1
 		return 'later';
 	}
 }
