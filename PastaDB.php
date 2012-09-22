@@ -209,14 +209,14 @@ class RawPasta //class output SQL strings
 			}
 			else
 			{
-				$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing row in insert()');
+				$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing row in insert() or replace()');
 				return false;
 			}
 			
 		}
 		else
 		{
-			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in insert()');
+			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in insert() or replace()');
 			return false;
 		}
 	}
@@ -247,7 +247,20 @@ class RawPasta //class output SQL strings
 	
 	public function update() //table, set, where, escapes
 	{
+		$args = func_get_args();
 		
+		$argCount = count($args);
+		
+		if (count($args) > 0)
+		{
+			$tableName = array_shift($args);
+			$argCount--;
+		}
+		else
+		{
+			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in update()');
+			return false;
+		}
 	}
 	
 }
