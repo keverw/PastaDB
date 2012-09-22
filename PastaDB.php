@@ -7,6 +7,10 @@ class PastaDB //class interacts with database
 	public $error = null;
 	public $errorNum = null;
 	
+	/* results */
+	public $affectedRows = 0;
+	public $numRows = 0;
+	
 	/* charset */
 	private $charsetDefault = null;
 		
@@ -61,6 +65,36 @@ class PastaDB //class interacts with database
 		}
 		
 		return addcslashes($this->DBH->real_escape_string($mixedValue), '%_'); //escapes using real_escape_string, then escapes _ (underscore) and % (percent) signs
+	}
+	
+	public function query($string)
+	{
+		$result = $this->DBH->query($string);
+		if(!$result && $this->DBH->error)
+		{
+			$this->_setSQLiError();
+			return false;
+		}
+		else
+		{
+			$this->affectedRows = $this->DBH->affected_rows;
+			
+			if($result instanceof mysqli_result)
+			{
+				$this->numRows = $result->num_rows;
+				
+				$records = array();
+				if($this->numRows > 0)
+				{
+					while($row = $result->fetch_assoc())
+					{
+						$records[] = $row;
+					}
+				}
+				$result->close();
+				return $records;
+			}
+		}
 	}
 }
 
