@@ -225,14 +225,24 @@ class RawPasta //class output SQL strings
 	{
 		$args = func_get_args();
 		
-		$newArrgs = array(array_shift($args));
+		$where = array_shift($args);
 		
-		foreach ($args as $key => $value)
+		if (count($args) > 0)
 		{
-			$newArrgs[] = $this->PastaDB->clean($value);
+			$newArrgs = array($where);
+		
+			foreach ($args as $key => $value)
+			{
+				$newArrgs[] = $this->PastaDB->clean($value);
+			}
+			
+			return call_user_func_array('sprintf', $newArrgs);
+		}
+		else
+		{
+			return $where;
 		}
 		
-		return call_user_func_array('sprintf', $newArrgs);
 	}
 	
 	/*
