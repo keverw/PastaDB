@@ -220,5 +220,26 @@ class RawPasta //class output SQL strings
 			return false;
 		}
 	}
+	
+	public function select() //$where, $escapes
+	{
+		$args = func_get_args();
+		
+		$newArrgs = array(array_shift($args));
+		
+		foreach ($args as $key => $value)
+		{
+			$newArrgs[] = $this->PastaDB->clean($value);
+		}
+		
+		return call_user_func_array('sprintf', $newArrgs);
+	}
+	
+	/*
+	public function update() //table, set, where
+	{
+		
+	}
+	*/
 }
 ?>
