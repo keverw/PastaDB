@@ -148,7 +148,7 @@ class RawPasta //class output SQL strings
 					}
 					else
 					{
-						$cols .= ' ,`' . $key . '`';;
+						$cols .= ', `' . $key . '`';;
 					}
 					
 					if ($row1 == '')
@@ -157,7 +157,7 @@ class RawPasta //class output SQL strings
 					}
 					else
 					{
-						$row1 .= " ,'" . $this->PastaDB->clean($value) . "'";
+						$row1 .= ", '" . $this->PastaDB->clean($value) . "'";
 					}
 				}
 				
@@ -167,14 +167,29 @@ class RawPasta //class output SQL strings
 				
 				if (count($additionalRow) > 0)
 				{
+					$lastRows = array();
 					
-				}
-				else
-				{
-					$sql .= ';';
+					foreach ($additionalRow as $key => $value)
+					{
+						$genRow = '';
+						foreach ($value as $key => $value)
+						{
+							if ($genRow == '')
+							{
+								$genRow .= "'" . $this->PastaDB->clean($value) . "'";
+							}
+							else
+							{
+								$genRow .= ", '" . $this->PastaDB->clean($value) . "'";
+							}
+						}
+						$lastRows[] = '(' . $genRow . ')';
+					}
+					
+					$sql .= ', ' . implode(', ', $lastRows);
 				}
 				
-				return $sql;
+				return $sql . ';';
 			}
 			else
 			{
