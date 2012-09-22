@@ -245,16 +245,72 @@ class RawPasta //class output SQL strings
 		
 	}
 	
-	public function update() //table, set, where, escapes
+	public function update() //$tableName, $set, $where, $escapes
 	{
 		$args = func_get_args();
 		
 		$argCount = count($args);
 		
-		if (count($args) > 0)
+		if ($argCount > 0)
 		{
 			$tableName = array_shift($args);
 			$argCount--;
+			
+			if ($argCount > 0 && is_array($args[0]))
+			{
+				$set = array_shift($args);
+				$argCount--;
+				
+				if ($argCount > 0 && is_string($args[0]))
+				{
+					$where = array_shift($args);
+					$escapes = $args;
+				}
+				else
+				{
+					$where = null;
+				}
+				unset($argCount, $args);
+					
+				//generate the sql
+				$sql = 'UPDATE `' . $tableName . '` SET ';
+				
+				$genRow = array();
+				
+				foreach ($set as $key => $value)
+				{
+					$genRow[] = '`' . $key . "` = '" . $this->PastaDB->clean($value) . "'";
+				}
+				
+				$sql .= implode(', ', $genRow);
+				
+				if ($where)
+				{
+					$sql .= ' WHERE ';
+					if (count($escapes) > 0)
+					{
+						$newArrgs = array($where);
+						
+						foreach ($escapes as $key => $value)
+						{
+							$newArrgs[] = $this->PastaDB->clean($value);
+						}
+						
+						$sql .= call_user_func_array('sprintf', $newArrgs);
+					}
+					else
+					{
+						$sql .= $where;
+					}
+				}
+				
+				return $sql . ';';
+			}
+			else
+			{
+				$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing set array in update()');
+				return false;
+			}
 		}
 		else
 		{

@@ -1,4 +1,3 @@
-* add a update command to RawPasta
 * wrap PastaDB around RawPasta
 * add transaction api
 * add license

@@ -1,8 +1,8 @@
 #select - select from a table!
 ```
-select($where, [$escape$args, ...])
+select($where, [$escapeArgs, ...])
 
 ```
 #####Note:
 
-the escape are automatically escaped! Use sprintf `%s` for strings.
+the where is automatically escaped! Use sprintf `%s` for strings.
