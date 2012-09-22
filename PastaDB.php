@@ -135,9 +135,46 @@ class RawPasta //class output SQL strings
 				$additionalRow = $args;
 				unset($args, $argCount);
 				
-				var_dump($tableName);
-				print_r($tableRows);
-				print_r($additionalRow);
+				$sql = "INSERT INTO `$tableName` ";
+				
+				$cols = '';
+				$row1 = '';
+				
+				foreach ($tableRows as $key => $value)
+				{
+					if ($cols == '')
+					{
+						$cols .= '`' . $key . '`';
+					}
+					else
+					{
+						$cols .= ' ,`' . $key . '`';;
+					}
+					
+					if ($row1 == '')
+					{
+						$row1 .= "'" . $this->PastaDB->clean($value) . "'";
+					}
+					else
+					{
+						$row1 .= " ,'" . $this->PastaDB->clean($value) . "'";
+					}
+				}
+				
+				$sql .= '(' . $cols . ') VALUES (' . $row1 . ')';
+				
+				unset($cols, $row1, $tableRows);
+				
+				if (count($additionalRow) > 0)
+				{
+					
+				}
+				else
+				{
+					$sql .= ';';
+				}
+				
+				return $sql;
 			}
 			else
 			{
@@ -151,8 +188,6 @@ class RawPasta //class output SQL strings
 			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in insert()');
 			return false;
 		}
-		
-		return 'later';
 	}
 }
 ?>
