@@ -118,9 +118,25 @@ class RawPasta //class output SQL strings
 		$this->PastaDB = $parrent;
 	}
 	
+	public function replace()
+	{
+		$args = func_get_args();
+		array_unshift($args, 'REPLACE');
+		return call_user_func_array(array($this, 'Internalinsert'), $args);
+	}
+	
 	public function insert()
 	{
 		$args = func_get_args();
+		array_unshift($args, 'INSERT INTO');
+		return call_user_func_array(array($this, 'Internalinsert'), $args);
+	}
+	
+	public function Internalinsert()
+	{
+		$args = func_get_args();
+		
+		$keyword = array_shift($args);
 		
 		$argCount = count($args);
 		
@@ -135,7 +151,7 @@ class RawPasta //class output SQL strings
 				$additionalRow = $args;
 				unset($args, $argCount);
 				
-				$sql = "INSERT INTO `$tableName` ";
+				$sql = $keyword . " `$tableName` ";
 				
 				$cols = '';
 				$row1 = '';
