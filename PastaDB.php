@@ -108,5 +108,28 @@ class RawPasta //class output SQL strings
 	{
 		$this->PastaDB = $parrent;
 	}
+	
+	public function insert()
+	{
+		$args = func_get_args();
+		
+		$argCount = count($args);
+		
+		if ($argCount > 0) //set $tableName
+		{
+			$tableName = $args[0];
+			unset($args[0]);
+			$argCount--;
+		}
+		else
+		{
+			return null;
+		}
+		
+		print_r($args);
+		
+		//Connect Error (1064) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selectx * from test' at line 1
+		return 'later';
+	}
 }
 ?>
