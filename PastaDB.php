@@ -221,7 +221,7 @@ class RawPasta //class output SQL strings
 		}
 	}
 	
-	public function select() //$where, $escapes
+	public function select()
 	{
 		$args = func_get_args();
 		
@@ -245,11 +245,10 @@ class RawPasta //class output SQL strings
 		
 	}
 	
-	/*
-	public function update() //table, set, where
+	public function update() //table, set, where, escapes
 	{
 		
 	}
-	*/
+	
 }
 ?>
