@@ -135,7 +135,7 @@ class PastaDB //class interacts with database
 	//transactions
 	public function begin() //start transaction
 	{
-		$this->DBH->autocommit(false);
+		return $this->DBH->autocommit(false);
 	}
 	
 	public function rollback()

@@ -3,23 +3,29 @@ ob_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/examples/PastaDB/connect.php';
 ob_end_clean();
 
-$db->begin();
-if ($result = $db->insert('users', array('name' => 'Mark', 'age' => 26)))
+if ($db->begin())
 {
-	?>
-	user ID:<?=$db->insertedID?> created.
-	<?
-	if ($db->commit())
+	if ($result = $db->insert('users', array('name' => 'Mark', 'age' => 26)))
 	{
-		echo 'Commited!';
+		?>
+		user ID:<?=$db->insertedID?> created.
+		<?
+		if ($db->commit())
+		{
+			echo 'Commited!';
+		}
+	}
+	else
+	{
+		if ($db->rollback())
+		{
+			echo 'Rollbacked!';
+		}
+		die('Connect Error (' . $db->errorNum . ') ' . $db->error); 
 	}
 }
 else
 {
-	if ($db->rollback())
-	{
-		echo 'Rollbacked!';
-	}
-	die('Connect Error (' . $db->errorNum . ') ' . $db->error); 
+	echo 'Error starting transaction';
 }
 ?>
