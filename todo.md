@@ -1,4 +1,3 @@
-* wrap PastaDB around RawPasta
 * add transaction api
 * add license
 * add version number
