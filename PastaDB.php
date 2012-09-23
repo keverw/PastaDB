@@ -1,7 +1,7 @@
 <?php
 /**
 * @project PastaDB
-* @version 0.2
+* @version 0.3
 * @url https://github.com/keverw/PastaDB
 * @about A powerful yet simple database abstraction layer library
 **/
@@ -109,7 +109,16 @@ class PastaDB //class interacts with database
 					}
 				}
 				$result->close();
-				return $records;
+				
+				if (count($records) > 0) //if more than 0 record, return records
+				{
+					return $records;
+				}
+				else //else return true, you should always use $db->numRows before trying to do a foreach loop or count on the result.
+				{
+					return true;
+				}
+				
 			}
 			else
 			{
