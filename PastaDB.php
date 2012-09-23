@@ -173,12 +173,10 @@ class RawPasta //class output SQL strings
 			if ($argCount > 0 && is_array($args[0]))
 			{
 				$tableRows = array_shift($args);
-				$argCount--;
 				$additionalRow = $args;
 				unset($args, $argCount);
 				
 				$sql = $keyword . " `$tableName` ";
-				
 				
 				$cols = array();
 				$rows = array();
@@ -199,19 +197,12 @@ class RawPasta //class output SQL strings
 					
 					foreach ($additionalRow as $key => $value)
 					{
-						$genRow = '';
+						$rows = array();
 						foreach ($value as $key => $value)
 						{
-							if ($genRow == '')
-							{
-								$genRow .= "'" . $this->PastaDB->clean($value) . "'";
-							}
-							else
-							{
-								$genRow .= ", '" . $this->PastaDB->clean($value) . "'";
-							}
+							$rows[] =  "'" . $this->PastaDB->clean($value) . "'";
 						}
-						$lastRows[] = '(' . $genRow . ')';
+						$lastRows[] = '(' . implode(', ', $rows) . ')';
 					}
 					
 					$sql .= ', ' . implode(', ', $lastRows);
