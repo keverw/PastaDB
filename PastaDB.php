@@ -10,6 +10,7 @@ class PastaDB //class interacts with database
 	/* results */
 	public $affectedRows = 0;
 	public $numRows = 0;
+	public $insertedID = 0;
 	
 	/* charset */
 	private $charsetDefault = null;
@@ -79,7 +80,7 @@ class PastaDB //class interacts with database
 	public function query($string)
 	{
 		$result = $this->DBH->query($string);
-		if(!$result && $this->DBH->error)
+		if(!$result && strlen($this->DBH->error) > 0)
 		{
 			$this->_setSQLiError();
 			return false;
@@ -87,6 +88,7 @@ class PastaDB //class interacts with database
 		else
 		{
 			$this->affectedRows = $this->DBH->affected_rows;
+			$this->insertedID = $this->DBH->insert_id;
 			
 			if($result instanceof mysqli_result)
 			{
@@ -103,7 +105,37 @@ class PastaDB //class interacts with database
 				$result->close();
 				return $records;
 			}
+			else
+			{
+				return true;
+			}
 		}
+	}
+	
+	public function insert()
+	{
+		$args = func_get_args();
+		$sql = call_user_func_array(array($this->RawPasta, 'insert'), $args);
+		if ($result = $this->query($sql))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public function replace()
+	{
+	}
+	
+	public function select()
+	{
+	}
+	
+	public function update()
+	{
 	}
 }
 
@@ -245,7 +277,7 @@ class RawPasta //class output SQL strings
 		
 	}
 	
-	public function update() //$tableName, $set, $where, $escapes
+	public function update()
 	{
 		$args = func_get_args();
 		
