@@ -114,12 +114,12 @@ class PastaDB //class interacts with database
 	
 	public function insert()
 	{
-		return $this->query(call_user_func_array(array($this->RawPasta, 'insert'), func_get_args())) ? true : false;
+		return $this->query(call_user_func_array(array($this->RawPasta, 'insert'), func_get_args()));
 	}
 	
 	public function replace()
 	{
-		return $this->query(call_user_func_array(array($this->RawPasta, 'replace'), func_get_args())) ? true : false;
+		return $this->query(call_user_func_array(array($this->RawPasta, 'replace'), func_get_args()));
 	}
 	
 	public function select()
