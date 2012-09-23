@@ -1,4 +1,10 @@
 <?php
+/**
+* @project PastaDB
+* @version 0.2
+* @url https://github.com/keverw/PastaDB
+* @about A powerful yet simple database abstraction layer library
+**/
 class PastaDB //class interacts with database
 {
 	/* Properties */

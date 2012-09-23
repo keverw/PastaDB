@@ -1,4 +1,4 @@
-PastaDB 0.1
+PastaDB 0.2
 =======
 
 Work with pasta, then we'll make the spaghetti! PastaDB aims to be a powerful yet simple database abstraction layer library.
