@@ -119,16 +119,7 @@ class PastaDB //class interacts with database
 	
 	public function replace()
 	{
-		$args = func_get_args();
-		$sql = call_user_func_array(array($this->RawPasta, 'replace'), $args);
-		if ($result = $this->query($sql))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return $this->query(call_user_func_array(array($this->RawPasta, 'replace'), func_get_args())) ? true : false;
 	}
 	
 	public function select()

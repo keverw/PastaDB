@@ -6,7 +6,7 @@ ob_end_clean();
 if ($result = $db->replace('users', array('id' => 21, 'name' => 'Mark', 'age' => 30)))
 {
 	?>
-	user ID:<?=$db->insertedID?> updated.
+	user ID:<?=$db->insertedID?> replaced.
 	<?
 }
 else
