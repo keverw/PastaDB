@@ -131,6 +131,51 @@ class PastaDB //class interacts with database
 	{
 		return $this->query(call_user_func_array(array($this->RawPasta, 'update'), func_get_args()));
 	}
+	
+	//transactions
+	public function begin() //start transaction
+	{
+		$this->DBH->autocommit(false);
+	}
+	
+	public function rollback()
+	{
+		if ($this->DBH->rollback())
+		{
+			if ($this->DBH->autocommit(true))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public function commit()
+	{
+		if ($this->DBH->commit())
+		{
+			if ($this->DBH->autocommit(true))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 }
 
 class RawPasta //class output SQL strings
