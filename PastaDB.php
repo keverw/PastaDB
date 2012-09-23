@@ -278,14 +278,14 @@ class RawPasta //class output SQL strings
 				//generate the sql
 				$sql = 'UPDATE `' . $tableName . '` SET ';
 				
-				$genRow = array();
+				$rows = array();
 				
 				foreach ($set as $key => $value)
 				{
-					$genRow[] = '`' . $key . "` = '" . $this->PastaDB->clean($value) . "'";
+					$rows[] = '`' . $key . "` = '" . $this->PastaDB->clean($value) . "'";
 				}
 				
-				$sql .= implode(', ', $genRow);
+				$sql .= implode(', ', $rows);
 				
 				if ($where)
 				{

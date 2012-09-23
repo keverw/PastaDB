@@ -7,7 +7,3 @@ ob_end_clean();
 
 echo $db->RawPasta->update('users', array('name' => 'Kyle', 'age' => 20), "id = '%s'", 1);
 ?>
-<br>
-<?
-die('Connect Error (' . $db->errorNum . ') ' . $db->error);
-?>
