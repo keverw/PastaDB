@@ -179,19 +179,13 @@ class RawPasta //class output SQL strings
 				
 				$sql = $keyword . " `$tableName` ";
 				
-				$cols = '';
+				
+				$cols = array();
 				$row1 = '';
 				
 				foreach ($tableRows as $key => $value)
 				{
-					if ($cols == '')
-					{
-						$cols .= '`' . $key . '`';
-					}
-					else
-					{
-						$cols .= ', `' . $key . '`';;
-					}
+					$cols[] = '`' . $key . '`';
 					
 					if ($row1 == '')
 					{
@@ -203,7 +197,7 @@ class RawPasta //class output SQL strings
 					}
 				}
 				
-				$sql .= '(' . $cols . ') VALUES (' . $row1 . ')';
+				$sql .= '(' . implode(', ', $cols) . ') VALUES (' . $row1 . ')';
 				
 				unset($cols, $row1, $tableRows);
 				
