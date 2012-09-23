@@ -142,6 +142,16 @@ class PastaDB //class interacts with database
 	
 	public function select()
 	{
+		$args = func_get_args();
+		$sql = call_user_func_array(array($this->RawPasta, 'select'), $args);
+		if ($result = $this->query($sql))
+		{
+			return $result;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	public function update()
