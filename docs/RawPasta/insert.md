@@ -1,4 +1,4 @@
-#insert - generates the SQL insert for you #
+#insert - generates the INSERT SQL#
 
 ```
 insert($table, $row, [$additionalRow, $additionalRow2, ...])

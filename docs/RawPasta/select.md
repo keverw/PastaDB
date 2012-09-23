@@ -1,4 +1,4 @@
-#select - select from a table!
+#select - generates the SELECT SQL!
 ```
 select($where, [$escapeArgs, ...])
 

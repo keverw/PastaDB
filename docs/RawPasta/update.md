@@ -1,4 +1,4 @@
-#update - updates a table! #
+#update - generates the UPDATE SQL! #
 
 ```
 update($tableName, $set, $where, [$escapeArgs, ...]])

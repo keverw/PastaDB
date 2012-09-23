@@ -1,4 +1,4 @@
-#replace - generates the SQL replace for you #
+#replace - generates the REPLACE SQL#
 
 ```
 replace($table, $row, [$additionalRow, $additionalRow2, ...])
