@@ -53,5 +53,4 @@ else
 {
 	die('Connect Error (' . $db->errorNum . ') ' . $db->error); 
 }
-
 ```
