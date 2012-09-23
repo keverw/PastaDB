@@ -1,7 +1,7 @@
 #connect - Open a new connection to the MySQL server#
 
 ```
-connect([ string $host = ini_get("mysqli.default_host") [, string $username = ini_get("mysqli.default_user") [, string $passwd = ini_get("mysqli.default_pw") [, string $dbname = "" [, int $port = ini_get("mysqli.default_port") [, string $socket = ini_get("mysqli.default_socket") ]]]]]] )
+$db = connect([ string $host = ini_get("mysqli.default_host") [, string $username = ini_get("mysqli.default_user") [, string $passwd = ini_get("mysqli.default_pw") [, string $dbname = "" [, int $port = ini_get("mysqli.default_port") [, string $socket = ini_get("mysqli.default_socket") ]]]]]] )
 
 ```
 ##Parameters##
@@ -23,3 +23,6 @@ Prepending host by p: opens a persistent connection. [mysqli_change_user()](http
 
 Specifying the socket parameter will not explicitly determine the type of connection to be used when connecting to the MySQL server. How the connection is made to the MySQL database is determined by the host parameter.
 
+
+##Using with MySQLi
+Since this is based on MySQLi, you can use `$db->DBH->MySQLiFunctionHere`. Great for transitioning other projects to using this.
