@@ -181,23 +181,15 @@ class RawPasta //class output SQL strings
 				
 				
 				$cols = array();
-				$rows = '';
+				$rows = array();
 				
 				foreach ($tableRows as $key => $value)
 				{
 					$cols[] = '`' . $key . '`';
-					
-					if ($rows == '')
-					{
-						$rows .= "'" . $this->PastaDB->clean($value) . "'";
-					}
-					else
-					{
-						$rows .= ", '" . $this->PastaDB->clean($value) . "'";
-					}
+					$rows[] = "'" . $this->PastaDB->clean($value) . "'";
 				}
 				
-				$sql .= '(' . implode(', ', $cols) . ') VALUES (' . $rows . ')';
+				$sql .= '(' . implode(', ', $cols) . ') VALUES (' . implode(', ', $rows) . ')';
 				
 				unset($cols, $rows, $tableRows);
 				
