@@ -147,6 +147,11 @@ class PastaDB //class interacts with database
 		return $this->query(call_user_func_array(array($this->RawPasta, 'update'), func_get_args()));
 	}
 	
+	public function delete()
+	{
+		return $this->query(call_user_func_array(array($this->RawPasta, 'delete'), func_get_args()));
+	}
+	
 	//transactions
 	public function begin() //start transaction
 	{
@@ -382,5 +387,58 @@ class RawPasta //class output SQL strings
 		}
 	}
 	
+	public function delete() //table, where, escapes
+	{
+		$args = func_get_args();
+		
+		$argCount = count($args);
+		
+		if ($argCount > 0)
+		{
+			$tableName = array_shift($args);
+			$argCount--;
+			
+			if ($argCount > 0 && is_string($args[0]))
+			{
+				$where = array_shift($args);
+				$escapes = $args;
+			}
+			else
+			{
+				$where = null;
+			}
+			unset($argCount, $args);
+			
+			//generate the sql
+			$sql = 'DELETE FROM `' . $tableName . '`';
+			
+			if ($where)
+			{
+				$sql .= ' WHERE ';
+				if (count($escapes) > 0)
+				{
+					$newArrgs = array($where);
+					
+					foreach ($escapes as $key => $value)
+					{
+						$newArrgs[] = $this->PastaDB->clean($value);
+					}
+					
+					$sql .= call_user_func_array('sprintf', $newArrgs);
+				}
+				else
+				{
+					$sql .= $where;
+				}
+			}
+			
+			return $sql . ';';
+		}
+		else
+		{
+			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in delete()');
+			return false;
+		}
+	}
 }
 ?>
