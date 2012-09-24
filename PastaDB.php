@@ -223,7 +223,7 @@ class RawPasta //class output SQL strings
 		return call_user_func_array(array($this, 'Internalinsert'), $args);
 	}
 	
-	public function Internalinsert()
+	private function Internalinsert()
 	{
 		$args = func_get_args();
 		
