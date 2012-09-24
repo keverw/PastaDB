@@ -209,6 +209,41 @@ class RawPasta //class output SQL strings
 		$this->PastaDB = $parrent;
 	}
 	
+	private function genreateWhere($lastArgs) //where, escpaes
+	{
+		$args = func_get_args();
+		
+		$argCount = count($lastArgs);
+		
+		if ($argCount > 0)
+		{
+			$argCount--;
+			$where = array_shift($lastArgs);
+			
+			if ($argCount > 0) //has escapes
+			{
+				$newArrgs = array($where);
+				
+				$escapes = $lastArgs;
+				
+				foreach ($escapes as $key => $value)
+				{
+					$newArrgs[] = $this->PastaDB->clean($value);
+				}
+				
+				return call_user_func_array('sprintf', $newArrgs);
+			}
+			else
+			{
+				return $where;
+			}
+		}
+		else
+		{
+			return '';
+		}
+	}
+	
 	public function replace()
 	{
 		$args = func_get_args();
@@ -291,26 +326,7 @@ class RawPasta //class output SQL strings
 	
 	public function select()
 	{
-		$args = func_get_args();
-		
-		$where = array_shift($args);
-		
-		if (count($args) > 0)
-		{
-			$newArrgs = array($where);
-		
-			foreach ($args as $key => $value)
-			{
-				$newArrgs[] = $this->PastaDB->clean($value);
-			}
-			
-			return call_user_func_array('sprintf', $newArrgs);
-		}
-		else
-		{
-			return $where;
-		}
-		
+		return $this->genreateWhere(func_get_args());
 	}
 	
 	public function update()
