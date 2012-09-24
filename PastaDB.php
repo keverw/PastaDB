@@ -220,23 +220,41 @@ class RawPasta //class output SQL strings
 			$argCount--;
 			$where = array_shift($lastArgs);
 			
-			if ($argCount > 0) //has escapes
+			if (is_string($where))
 			{
-				$newArrgs = array($where);
-				
-				$escapes = $lastArgs;
-				
-				foreach ($escapes as $key => $value)
+				if ($argCount > 0) //has escapes
 				{
-					$newArrgs[] = $this->PastaDB->clean($value);
+					$newArrgs = array($where);
+					
+					$escapes = $lastArgs;
+					
+					foreach ($escapes as $key => $value)
+					{
+						$newArrgs[] = $this->PastaDB->clean($value);
+					}
+					
+					return call_user_func_array('sprintf', $newArrgs);
+				}
+				else
+				{
+					return $where;
+				}
+			}
+			else if (is_array($where))
+			{
+				foreach ($where as $key => $value)
+				{
+					$rows[] = '`' . $key . "` = '" . $this->PastaDB->clean($value) . "'";
 				}
 				
-				return call_user_func_array('sprintf', $newArrgs);
+				$sql = implode(' AND ', $rows);
+				return $sql;
 			}
 			else
 			{
-				return $where;
+				return '';
 			}
+			
 		}
 		else
 		{
