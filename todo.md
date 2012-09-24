@@ -1,0 +1,2 @@
+*add a delete function
+*in functions when you can have a (where, escapes) at the end, allow where to be an array. So array('id' = 12) would delete ID 12, if more than one key/value add an AND between them.
