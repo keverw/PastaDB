@@ -209,7 +209,7 @@ class RawPasta //class output SQL strings
 		$this->PastaDB = $parrent;
 	}
 	
-	private function genreateWhere($lastArgs) //where, escpaes
+	private function genreateWhere($lastArgs) //array or $where, $escapes
 	{
 		$args = func_get_args();
 		
@@ -398,38 +398,22 @@ class RawPasta //class output SQL strings
 			$tableName = array_shift($args);
 			$argCount--;
 			
-			if ($argCount > 0 && is_string($args[0]))
+			if ($argCount > 0)
 			{
-				$where = array_shift($args);
-				$escapes = $args;
+				$where = $this->genreateWhere($args);
 			}
 			else
 			{
-				$where = null;
+				$where = '';
 			}
 			unset($argCount, $args);
 			
 			//generate the sql
 			$sql = 'DELETE FROM `' . $tableName . '`';
 			
-			if ($where)
+			if (strlen($where) > 0)
 			{
-				$sql .= ' WHERE ';
-				if (count($escapes) > 0)
-				{
-					$newArrgs = array($where);
-					
-					foreach ($escapes as $key => $value)
-					{
-						$newArrgs[] = $this->PastaDB->clean($value);
-					}
-					
-					$sql .= call_user_func_array('sprintf', $newArrgs);
-				}
-				else
-				{
-					$sql .= $where;
-				}
+				$sql .= ' WHERE ' . $where;
 			}
 			
 			return $sql . ';';
