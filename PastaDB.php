@@ -345,14 +345,13 @@ class RawPasta //class output SQL strings
 				$set = array_shift($args);
 				$argCount--;
 				
-				if ($argCount > 0 && is_string($args[0]))
+				if ($argCount > 0)
 				{
-					$where = array_shift($args);
-					$escapes = $args;
+					$where = $this->genreateWhere($args);
 				}
 				else
 				{
-					$where = null;
+					$where = '';
 				}
 				unset($argCount, $args);
 					
@@ -368,24 +367,9 @@ class RawPasta //class output SQL strings
 				
 				$sql .= implode(', ', $rows);
 				
-				if ($where)
+				if (strlen($where) > 0)
 				{
-					$sql .= ' WHERE ';
-					if (count($escapes) > 0)
-					{
-						$newArrgs = array($where);
-						
-						foreach ($escapes as $key => $value)
-						{
-							$newArrgs[] = $this->PastaDB->clean($value);
-						}
-						
-						$sql .= call_user_func_array('sprintf', $newArrgs);
-					}
-					else
-					{
-						$sql .= $where;
-					}
+					$sql .= ' WHERE ' . $where;
 				}
 				
 				return $sql . ';';
