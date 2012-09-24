@@ -5,7 +5,8 @@ select($where, [$escapeArgs, ...])
 ```
 #####Note:
 
-the where is automatically escaped! Use sprintf `%s` for strings.
+* the where is automatically escaped! Use sprintf `%s` for strings.
+* When zero records are returned, it will return `true` because an empty array will cause an `if ()` statement to think it's `false` when really there was nothing to find for the select. Use `$db->numRows` to get the number of records before running a foreach loop to list multple rows. same thing happens when you call `->query`.
 
 ##Example #1 - Single row
 ```
