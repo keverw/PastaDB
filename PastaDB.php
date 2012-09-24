@@ -1,7 +1,7 @@
 <?php
 /**
 * @project PastaDB
-* @version 0.4
+* @version 0.5
 * @url https://github.com/keverw/PastaDB
 * @about A powerful yet simple database abstraction layer library
 **/
