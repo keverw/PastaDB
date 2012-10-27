@@ -442,5 +442,40 @@ class RawPasta //class output SQL strings
 			return false;
 		}
 	}
+	
+	public function count() //$table, $what = '*', $where = null
+	{
+		$args = func_get_args();
+		
+		if (count($args) > 0)
+		{
+			$tableName = array_shift($args);
+			
+			if (count($args) > 0)
+			{
+				$what = array_shift($args);
+			}
+			else
+			{
+				$what = '*';
+			}
+			
+			$where = $this->genreateWhere($args);
+			
+			$output = 'SELECT COUNT(' . $what . ') FROM ' . $tableName;
+			
+			if (strlen($where) > 0)
+			{
+				$output .= ' WHERE ' . $where;
+			}
+			
+			return $output;
+		}
+		else
+		{
+			$this->PastaDB->_setSQLiError(1064, 'RawPasta: Missing table name in count()');
+			return false;
+		}
+	}
 }
 ?>
