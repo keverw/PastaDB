@@ -142,6 +142,20 @@ class PastaDB //class interacts with database
 		return $this->query(call_user_func_array(array($this->RawPasta, 'select'), func_get_args()));
 	}
 	
+	public function count()
+	{
+		$result = $this->query(call_user_func_array(array($this->RawPasta, 'count'), func_get_args()));
+		
+		if ($result)
+		{
+			return array_pop($result[0]);
+		}
+		else
+		{
+			return 'err';
+		}
+	}
+	
 	public function update()
 	{
 		return $this->query(call_user_func_array(array($this->RawPasta, 'update'), func_get_args()));
