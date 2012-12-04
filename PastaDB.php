@@ -1,7 +1,7 @@
 <?php
 /**
 * @project PastaDB
-* @version 0.7
+* @version 0.8
 * @url https://github.com/keverw/PastaDB
 * @about A powerful yet simple database abstraction layer library
 **/
@@ -154,6 +154,33 @@ class PastaDB //class interacts with database
 		{
 			return 'err';
 		}
+	}
+
+	public function itemExists($table, $col, $value)
+	{
+		$dbErr = false;
+		$exists = false;
+
+		$result = $this->count($table, $col, array(
+			$col => $value
+		));
+
+		if (is_numeric($result))
+		{
+			if ($result > 0)
+			{
+				$exists = true;
+			}
+		}
+		else
+		{
+			$dbErr = true;
+		}
+
+		return array(
+			'err' => $dbErr,
+			'exists' => $exists
+		);
 	}
 	
 	public function update()

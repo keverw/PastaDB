@@ -1,4 +1,4 @@
-#select - select from a table!
+#count - get row count!
 ```
 count($table, [$what = '*', $where = null])
 
