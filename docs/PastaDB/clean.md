@@ -3,8 +3,33 @@
 ```
 clean($mixedValue)
 ```
-##Parameters##
+###Parameters###
 ***mixedValue*** - A value to be escaped to help prevent SQL injections.
 
-##note##
+###note##
 some functions like `->insert()`, `->replace()`, `->update()` will automatically escape varables, this is great for when using `->query()`
+
+
+##cleanLike##
+
+Simuilar to `clean`, run this on strings before running the string into `clean`(or a function that does automatic escaping using `clean`). This is to use for varables that will be used with MySQL `like` statement
+
+```
+cleanLike($mixedValue)
+```
+
+###Parameters###
+***mixedValue*** - A value to be escaped to help prevent SQL injections.
+
+##cleanBoth##
+
+```
+cleanBoth($mixedValue)
+```
+
+###Parameters###
+***mixedValue*** - A value to be escaped on both .
+
+###note###
+
+Runs `cleanLike`, then `clean` on a string in one swoop. Prefect for when you need to run both `cleanLike` and `clean` when doing manual SQL queries.

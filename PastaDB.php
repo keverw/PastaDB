@@ -1,7 +1,7 @@
 <?php
 /**
 * @project PastaDB
-* @version 0.8
+* @version 0.9
 * @url https://github.com/keverw/PastaDB
 * @about A powerful yet simple database abstraction layer library
 **/
@@ -80,7 +80,24 @@ class PastaDB //class interacts with database
 			$mixedValue = stripcslashes($mixedValue);
 		}
 		
-		return addcslashes($this->DBH->real_escape_string($mixedValue), '%'); //escapes using real_escape_string, then escape % (percent) signs
+		return $this->DBH->real_escape_string($mixedValue); //escapes using real_escape_string
+	}
+	
+	public function cleanLike($mixedValue)
+	{
+		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
+		{
+			$mixedValue = stripcslashes($mixedValue);
+		}
+		
+		return str_replace(array('%', '_'), array('\\%', '\_'), $mixedValue);
+	}
+	
+	public function cleanBoth($mixedValue)
+	{
+		return $this->clean(
+			$this->cleanLike($mixedValue)
+		);
 	}
 	
 	public function query($string)
