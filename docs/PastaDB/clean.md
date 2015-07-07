@@ -33,3 +33,13 @@ cleanBoth($mixedValue)
 ###note###
 
 Runs `cleanLike`, then `clean` on a string in one swoop. Prefect for when you need to run both `cleanLike` and `clean` when doing manual SQL queries.
+
+##cleanParms##
+
+```
+cleanParms($statement, [$escapeArgs, ...])
+```
+
+###Parameters###
+***statement*** - A SQL statement
+***escapeArgs*** - pass each arugment you wish to escape in as a function parmaeter matching up with each %s in the statement. This works just like how select statement's are called.

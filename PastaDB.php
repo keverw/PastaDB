@@ -1,7 +1,7 @@
 <?php
 /**
 * @project PastaDB
-* @version 0.9
+* @version 0.9.1
 * @url https://github.com/keverw/PastaDB
 * @about A powerful yet simple database abstraction layer library
 **/
@@ -81,6 +81,43 @@ class PastaDB //class interacts with database
 		}
 		
 		return $this->DBH->real_escape_string($mixedValue); //escapes using real_escape_string
+	}
+	
+	public function cleanParms() //pass sql string, then each parm after matching the %'s
+	{
+		$args = func_get_args();
+		
+		$argCount = count($args);
+		
+		if ($argCount > 0)
+		{
+			$argCount--;
+			
+			$sqlStatement = array_shift($args);
+			
+			if ($argCount > 0)
+			{
+				$newArrgs = array($sqlStatement);
+				
+				foreach ($args as $key => $value)
+				{
+					$newArrgs[] = $this->clean($value);
+				}
+				
+				return call_user_func_array('sprintf', $newArrgs);
+				
+			}
+			else
+			{
+				return $sqlStatement; //nothing to clean.
+			}			
+			
+		}
+		else
+		{
+			return ''; //nothing passed to clean
+		}
+		
 	}
 	
 	public function cleanLike($mixedValue)
