@@ -86,7 +86,7 @@ class PastaDB //class interacts with database
 			} while ($this->DBH->more_results());
 		}
 		if ($this->DBH->errno) {
-			$this->_setSQLiError($this->DBC->errno, 'Query #' . ($i + 1) . ' of ' . $Filepath . ': (' . $sqlSourceArray[$i] . ') has error: ' . $this->DBC->error);
+			$this->_setSQLiError($this->DBH->errno, 'Query #' . ($i + 1) . ' of ' . $Filepath . ': (' . $sqlSourceArray[$i] . ') has error: ' . $this->DBH->error);
 			return false;
 		} else {
 			return true;
