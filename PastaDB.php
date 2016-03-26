@@ -73,7 +73,7 @@ class PastaDB //class interacts with database
 		}
 	}
 
-	public function ImportSQL($Filepath)
+	public function importSQL($Filepath)
 	{
 		$sqlSource = file_get_contents($Filepath);
 		$sqlSourceArray = explode(';', $sqlSource);
