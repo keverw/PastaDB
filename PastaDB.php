@@ -72,7 +72,27 @@ class PastaDB //class interacts with database
 			
 		}
 	}
-	
+
+	public function importSQL($Filepath)
+	{
+		$sqlSource = file_get_contents($Filepath);
+		$sqlSourceArray = explode(';', $sqlSource);
+		$i = 0;
+		if ($this->DBH->multi_query($sqlSource)) {
+			do {
+				$this->DBH->next_result();
+
+				$i++;
+			} while ($this->DBH->more_results());
+		}
+		if ($this->DBH->errno) {
+			$this->_setSQLiError($this->DBH->errno, 'Query #' . ($i + 1) . ' of ' . $Filepath . ': (' . $sqlSourceArray[$i] . ') has error: ' . $this->DBH->error);
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	public function clean($mixedValue)
 	{
 		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
