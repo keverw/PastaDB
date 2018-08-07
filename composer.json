@@ -1,0 +1,14 @@
+{
+    "name": "keverw/pastadb",
+    "description": "Work with pasta, then we'll make the spaghetti! PastaDB aims to be a powerful yet simple database abstraction layer library.",
+    "type": "library",
+    "license": "See LICENSE.txt",
+    "authors": [
+        {
+            "name": "Kevin Whitman",
+            "email": "keverw92@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
