@@ -137,11 +137,6 @@ class PastaDB //class interacts with database
 	
 	public function cleanLike($mixedValue)
 	{
-		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
-		{
-			$mixedValue = stripcslashes($mixedValue);
-		}
-		
 		return str_replace(array('%', '_'), array('\\%', '\_'), $mixedValue);
 	}
 	
