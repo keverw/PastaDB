@@ -95,11 +95,6 @@ class PastaDB //class interacts with database
 
 	public function clean($mixedValue)
 	{
-		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
-		{
-			$mixedValue = stripcslashes($mixedValue);
-		}
-		
 		return $this->DBH->real_escape_string($mixedValue); //escapes using real_escape_string
 	}
 	
